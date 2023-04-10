@@ -24,7 +24,7 @@ const { error } = require('console');
 const socket = http.createServer(app)
 const io = require("socket.io")(socket, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: '*',
         methods: ["GET", "POST"]
     }
 })
