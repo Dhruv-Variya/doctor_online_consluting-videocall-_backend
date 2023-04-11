@@ -33,6 +33,7 @@ const io = require("socket.io")(socket, {
 
 //............ videocall functionality.............//
 io.on("connection", (socket) => {
+    console.log("i am called");
     // console.log(socket.id, 'connected');
     const id = socket.id;
     socket.emit("me", id);
