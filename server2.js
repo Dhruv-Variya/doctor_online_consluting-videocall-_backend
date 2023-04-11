@@ -39,6 +39,7 @@ io.on("connection", (socket) => {
     socket.emit("me", id);
     // console.log(id);
     socket.on("patientdisconnect", (data) => {
+        console.log("patientdisconnect");
         // socket.emit("endfromboth", { callend: data.callend });
         io.to(data.userTocall).emit("endfrompatient", { callend: data.callend });
     })
@@ -48,7 +49,7 @@ io.on("connection", (socket) => {
         io.to(data.to).emit("endfromdoctor", { callend: data.callend });
     })
     socket.on("disconnect", (data) => {
-
+        console.log("disconnect");
         socket.broadcast.emit("callEnded")
     })
 
@@ -58,6 +59,7 @@ io.on("connection", (socket) => {
     })
 
     socket.on("answerCall", (data) => {
+        console.log("answerCall");
         io.to(data.to).emit("callAccepted", data.signal)
     })
 })
