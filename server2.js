@@ -56,6 +56,7 @@ io.on("connection", (socket) => {
     socket.on("callUser", (data) => {
         console.log("server called data from patient")
         io.to(data.userToCall).emit("callUser", { signal: data.signalData, from: data.from, name: data.name })
+        io.to(data.from).emit("changestate");
     })
 
     socket.on("answerCall", (data) => {
