@@ -38,6 +38,9 @@ io.on("connection", (socket) => {
     socket.on("patientdisconnect", (data) => {
         io.to(data.userTocall).emit("endfrompatient", { callend: data.callend });
     })
+    socket.on("patientmisscalled", (data) => {
+        io.to(data.userTocall).emit("misscall", { callend: data.misscall });
+    })
     socket.on("doctordisconnect", (data) => {
         io.to(data.to).emit("endfromdoctor", { callend: data.callend });
     })
