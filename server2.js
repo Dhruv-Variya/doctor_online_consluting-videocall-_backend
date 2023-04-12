@@ -33,34 +33,31 @@ const io = require("socket.io")(socket, {
 
 //............ videocall functionality.............//
 io.on("connection", (socket) => {
-    console.log("i am called");
-    // console.log(socket.id, 'connected');
     const id = socket.id;
     socket.emit("me", id);
-    // console.log(id);
     socket.on("patientdisconnect", (data) => {
-        console.log("patientdisconnect");
-        // socket.emit("endfromboth", { callend: data.callend });
         io.to(data.userTocall).emit("endfrompatient", { callend: data.callend });
     })
     socket.on("doctordisconnect", (data) => {
-        console.log("disconnect from doctor");
-        // socket.emit("endfromboth", { callend: data.callend });
         io.to(data.to).emit("endfromdoctor", { callend: data.callend });
     })
+    socket.on("doctorbusy", (data) => {
+        io.to(data.to).emit("doctorbusycut", { busy: data.busy });
+    })
     socket.on("disconnect", (data) => {
-        console.log("disconnect");
         socket.broadcast.emit("callEnded")
     })
+    socket.on("sendringing", (data) => {
+        io.to(data.from).emit("ringing");
+    })
+
 
     socket.on("callUser", (data) => {
-        console.log("server called data from patient")
         io.to(data.userToCall).emit("callUser", { signal: data.signalData, from: data.from, name: data.name })
-        io.to(data.from).emit("changestate");
+        io.to(data.from).emit("sendcalling");
     })
 
     socket.on("answerCall", (data) => {
-        console.log("answerCall");
         io.to(data.to).emit("callAccepted", data.signal)
     })
 })
