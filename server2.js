@@ -9,6 +9,13 @@ mongoose.connect(process.env.mongoUrl, {
 
 const conn = mongoose.createConnection(process.env.mongoUrl);
 const app = express();
+const server = require("http").Server(app);
+const io = require("socket.io")(server, {
+    cors: {
+        origin: '*',
+        methods: ["GET", "POST"]
+    }
+});
 
 app.use(express.json());
 const cors = require('cors');
@@ -18,16 +25,16 @@ app.use(cors({
 }));
 
 
-const http = require("http");
-const { send } = require('process');
-const { error } = require('console');
-const socket = http.createServer(app)
-const io = require("socket.io")(socket, {
-    cors: {
-        origin: '*',
-        methods: ["GET", "POST"]
-    }
-})
+// const http = require("http");
+// const { send } = require('process');
+// const { error } = require('console');
+// const socket = http.createServer(app)
+// const io = require("socket.io")(socket, {
+//     cors: {
+//         origin: '*',
+//         methods: ["GET", "POST"]
+//     }
+// })
 
 
 
@@ -67,7 +74,7 @@ io.on("connection", (socket) => {
 
 const PORT = 8001 || process.env.PORT
 const mode = "devlopment"
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log("video call running on" + PORT);
     //console.log(`server running successfully on ${mode} mode on port ${port}`);
 });
