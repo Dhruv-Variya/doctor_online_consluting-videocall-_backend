@@ -67,7 +67,7 @@ io.on("connection", (socket) => {
 
 const PORT = 8001 || process.env.PORT
 const mode = "devlopment"
-socket.listen(PORT, () => {
+app.listen(PORT, () => {
     console.log("video call running on" + PORT);
     //console.log(`server running successfully on ${mode} mode on port ${port}`);
 });
